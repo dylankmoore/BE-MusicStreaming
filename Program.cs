@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Json;
+using BE_MusicStreaming;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,7 @@ builder.Services.AddSwaggerGen();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // allows our api endpoints to access the database through Entity Framework Core
-builder.Services.AddNpgsql<CreekRiverDbContext>(builder.Configuration["CreekRiverDbConnectionString"]);
+builder.Services.AddNpgsql<BE_MusicStreamingDbContext>(builder.Configuration["BE_MusicStreamingDbConnectionString"]);
 
 // Set the JSON serializer options
 builder.Services.Configure<JsonOptions>(options =>
