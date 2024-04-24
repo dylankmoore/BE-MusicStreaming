@@ -46,7 +46,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+<<<<<<< HEAD
+SongAPI.Map(app);
+=======
 UserAPI.Map(app);
 ArtistAPI.Map(app);
+>>>>>>> main
 
 app.Run();
