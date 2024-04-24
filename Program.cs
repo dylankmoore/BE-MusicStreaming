@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using BE_MusicStreaming;
+using BE_MusicStreaming.APIs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,5 +45,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+SongAPI.Map(app);
 
 app.Run();
