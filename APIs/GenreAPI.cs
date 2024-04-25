@@ -4,7 +4,7 @@
     {
         public static void Map(WebApplication app)
         {
-            app.MapGet("/api/genress", (BE_MusicStreamingDbContext db) => {
+            app.MapGet("/api/genres", (BE_MusicStreamingDbContext db) => {
                 return db.Genres;
             });
 
