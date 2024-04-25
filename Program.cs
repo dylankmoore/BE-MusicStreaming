@@ -50,5 +50,6 @@ SongAPI.Map(app);
 UserAPI.Map(app);
 ArtistAPI.Map(app);
 GenreAPI.Map(app);
+PlaylistAPI.Map(app);
 
 app.Run();
