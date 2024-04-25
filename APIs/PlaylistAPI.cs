@@ -1,4 +1,5 @@
-﻿using BE_MusicStreaming.DTOs;
+﻿using BE_MusicStreaming.Data;
+using BE_MusicStreaming.DTOs;
 using BE_MusicStreaming.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,14 +23,10 @@ namespace BE_MusicStreaming.APIs
                     p.Id,
                     p.Name,
                     p.DateCreated,
+                    p.ImageUrl,
                     p.Public,
+                    p.IsFavorite,
                     UserName = p.User.Username,
-                    Songs = p.Songs.Select(s => new
-                    {
-                        s.Id,
-                        s.Name,
-                        ArtistName = s.Artist.Name
-                    })
                 }).ToList();
 
                 return Results.Ok(playlistData);
@@ -50,13 +47,9 @@ namespace BE_MusicStreaming.APIs
                     p.Name,
                     p.DateCreated,
                     p.Public,
+                    p.IsFavorite,
+                    p.ImageUrl,
                     UserName = p.User.Username,
-                    Songs = p.Songs.Select(s => new
-                    {
-                        s.Id,
-                        s.Name,
-                        ArtistName = s.Artist.Name
-                    })
                 }).ToList();
 
                 return Results.Ok(playlistData);
@@ -107,13 +100,9 @@ namespace BE_MusicStreaming.APIs
                         p.Name,
                         p.DateCreated,
                         p.Public,
+                        p.IsFavorite,
+                        p.ImageUrl,
                         UserName = p.User.Username,
-                        Songs = p.Songs.Select(s => new
-                        {
-                            s.Id,
-                            s.Name,
-                            ArtistName = s.Artist.Name
-                        })
                     }).ToList();
 
                 return Results.Ok(myPlaylists);
