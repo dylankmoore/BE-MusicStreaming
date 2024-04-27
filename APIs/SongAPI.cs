@@ -84,6 +84,10 @@ namespace BE_MusicStreaming.APIs
                                   .SingleOrDefault(s => s.Id == songToAdd.SongId);
                     if (song != null)
                     {
+                        if (playlist.Songs.Contains(song))
+                        {
+                            return Results.BadRequest("song already on playlist");
+                        }
                         playlist.Songs.Add(song);
                         db.SaveChanges();
                         return Results.Ok("song added to playlist");
