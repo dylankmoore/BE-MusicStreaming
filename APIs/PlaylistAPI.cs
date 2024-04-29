@@ -10,7 +10,7 @@ namespace BE_MusicStreaming.APIs
         public static void Map(WebApplication app)
         {
             // GET ALL PLAYLISTS
-            app.MapGet("/playlists", (BE_MusicStreamingDbContext db, int userId) =>
+            app.MapGet("/api/playlists", (BE_MusicStreamingDbContext db, int userId) =>
             {
                 // get all playlists, including public playlists & playlists belonging to the user
                 var playlists = db.Playlists
@@ -33,7 +33,7 @@ namespace BE_MusicStreaming.APIs
             });
 
             // GET ALL FAV PLAYLISTS
-            app.MapGet("/playlists/favorite", (BE_MusicStreamingDbContext db, int userId) =>
+            app.MapGet("/api/playlists/favorite", (BE_MusicStreamingDbContext db, int userId) =>
             {
                 // get all fav playlists, including those public 
                 var playlists = db.Playlists
@@ -56,7 +56,7 @@ namespace BE_MusicStreaming.APIs
             });
 
             // GET PLAYLIST BY ID
-            app.MapGet("/playlists/{id}", (BE_MusicStreamingDbContext db, int id, int userId) =>
+            app.MapGet("/api/playlists/{id}", (BE_MusicStreamingDbContext db, int id, int userId) =>
             {
                 var playlist = db.Playlists
                     .Include(p => p.Songs).ThenInclude(s => s.Artist)
@@ -88,7 +88,7 @@ namespace BE_MusicStreaming.APIs
             });
 
             // GET USER'S PLAYLISTS
-            app.MapGet("/playlists/mine", (BE_MusicStreamingDbContext db, int userId) =>
+            app.MapGet("/api/playlists/mine", (BE_MusicStreamingDbContext db, int userId) =>
             {
                 // get playlists that only belong to current user
                 var myPlaylists = db.Playlists
@@ -109,7 +109,7 @@ namespace BE_MusicStreaming.APIs
             });
 
             // CREATE A PLAYLIST
-            app.MapPost("/playlists", (BE_MusicStreamingDbContext db, PlaylistDTO playlistDto, int userId) =>
+            app.MapPost("/api/playlists", (BE_MusicStreamingDbContext db, PlaylistDTO playlistDto, int userId) =>
             {
                 // verify that the user exists
                 var user = db.Users.FirstOrDefault(u => u.Id == userId);
@@ -137,7 +137,7 @@ namespace BE_MusicStreaming.APIs
             });
 
             // UPDATE A PLAYLIST
-            app.MapPut("/playlists/{id}", (BE_MusicStreamingDbContext db, int id, PlaylistDTO playlistDto) =>
+            app.MapPut("/api/playlists/{id}", (BE_MusicStreamingDbContext db, int id, PlaylistDTO playlistDto) =>
             {
                 var playlist = db.Playlists.FirstOrDefault(p => p.Id == id);
 
@@ -166,9 +166,9 @@ namespace BE_MusicStreaming.APIs
             });
 
             // DELETE A PLAYLIST
-            app.MapDelete("/playlists/{Id}", (BE_MusicStreamingDbContext db, int Id) =>
+            app.MapDelete("/api/playlists/{id}", (BE_MusicStreamingDbContext db, int id) =>
             {
-                var playlist = db.Playlists.FirstOrDefault(p => p.Id == Id);
+                var playlist = db.Playlists.FirstOrDefault(p => p.Id == id);
 
                 if (playlist == null)
                 {
@@ -178,7 +178,7 @@ namespace BE_MusicStreaming.APIs
                 db.Playlists.Remove(playlist);
                 db.SaveChanges();
 
-                return Results.Ok($"Playlist {Id} has been deleted.");
+                return Results.Ok($"Playlist {id} has been deleted.");
             });
 
 
