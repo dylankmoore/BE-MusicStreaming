@@ -109,10 +109,10 @@ namespace BE_MusicStreaming.APIs
             });
 
             // CREATE A PLAYLIST
-            app.MapPost("/api/playlists", (BE_MusicStreamingDbContext db, PlaylistDTO playlistDto, int userId) =>
+            app.MapPost("/api/playlists", (BE_MusicStreamingDbContext db, PlaylistDTO playlistDto) =>
             {
                 // verify that the user exists
-                var user = db.Users.FirstOrDefault(u => u.Id == userId);
+                var user = db.Users.FirstOrDefault(u => u.Id == playlistDto.UserId);
                 if (user == null)
                 {
                     return Results.NotFound("User not found.");
@@ -126,7 +126,7 @@ namespace BE_MusicStreaming.APIs
                     Public = playlistDto.Public,
                     IsFavorite = playlistDto.IsFavorite,
                     DateCreated = DateTime.Now,
-                    UserId = userId
+                    UserId = playlistDto.UserId
                 };
 
                 // add the playlist to the db & save changes
@@ -137,9 +137,9 @@ namespace BE_MusicStreaming.APIs
             });
 
             // UPDATE A PLAYLIST
-            app.MapPut("/api/playlists/{id}", (BE_MusicStreamingDbContext db, int id, PlaylistDTO playlistDto) =>
+            app.MapPut("/api/playlists/{id}", (BE_MusicStreamingDbContext db, EditPlaylistDTO playlistDto) =>
             {
-                var playlist = db.Playlists.FirstOrDefault(p => p.Id == id);
+                var playlist = db.Playlists.FirstOrDefault(p => p.Id == playlistDto.Id);
 
                 if (playlist == null)
                 {
