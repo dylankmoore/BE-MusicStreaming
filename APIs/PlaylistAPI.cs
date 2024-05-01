@@ -75,6 +75,7 @@ namespace BE_MusicStreaming.APIs
                             s.Name,
                             ArtistName = s.Artist.Name,
                             GenreName = s.Genre.Name,
+                            Year = s.Year,
                             Duration = s.Duration
                         })
                     }).FirstOrDefault();
