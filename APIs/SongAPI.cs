@@ -56,22 +56,6 @@ namespace BE_MusicStreaming.APIs
                 return Results.NotFound("no songs found");
             });
 
-            //search songs by name, artist or genre
-            app.MapGet("/api/songs/search/{searchInput}", (BE_MusicStreamingDbContext db, string searchInput) =>
-            {
-                List<Song> searchResults = db.Songs
-                              .Include(s => s.Genre).Include(s => s.Artist)
-                              .Where(s => s.Name.ToLower().Contains(searchInput)
-                              || s.Artist.Name.ToLower().Contains(searchInput)
-                              || s.Genre.Name.ToLower().Contains(searchInput))
-                              .ToList();
-                if (searchResults != null)
-                {
-                    return Results.Ok(searchResults);
-                }
-                return Results.NotFound("no songs found");
-            });
-
             //add song to playlist
             app.MapPatch("/api/playlists/add/{playlistId}", (BE_MusicStreamingDbContext db, SongPlaylistDTO songToAdd) =>
             {
@@ -137,6 +121,39 @@ namespace BE_MusicStreaming.APIs
                         {
                             return Results.Ok(songsToAdd);
                         }
+                    return Results.NotFound("no songs found");
+                }
+                return Results.BadRequest("no playlist found");
+            });
+
+            //search songs by name, artist or genre
+            app.MapPost("/api/search/{searchObject.PlaylistId}/{searchObject.SearchInput}", (BE_MusicStreamingDbContext db, SearchDTO searchObject) =>
+            {
+                Playlist playlist = db.Playlists
+                                      .Include(p => p.Songs)
+                                      .SingleOrDefault(p => p.Id == searchObject.PlaylistId);
+                if (playlist != null)
+                {
+                    List<Song> songsOnPlaylist = playlist.Songs.ToList();
+
+                    List<Song> songsToAdd = db.Songs
+                                          .Include(s => s.Genre)
+                                          .Include(s => s.Artist)
+                                          .Where(s => !songsOnPlaylist.Contains(s))
+                                          .ToList();
+                    if (songsToAdd != null)
+                    {
+                        List<Song> searchResults = songsToAdd
+                                      .Where(s => s.Name.ToLower().Contains(searchObject.SearchInput)
+                                      || s.Artist.Name.ToLower().Contains(searchObject.SearchInput)
+                                      || s.Genre.Name.ToLower().Contains(searchObject.SearchInput))
+                                      .ToList();
+                        if (searchResults != null)
+                        {
+                            return Results.Ok(searchResults);
+                        }
+                        return Results.NotFound("no songs found");
+                    }
                     return Results.NotFound("no songs found");
                 }
                 return Results.BadRequest("no playlist found");
