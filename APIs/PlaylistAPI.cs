@@ -69,6 +69,7 @@ namespace BE_MusicStreaming.APIs
                         p.Public,
                         IsFavorite = p.IsFavorite,
                         ImageUrl = p.ImageUrl,
+                        UserId = p.UserId,
                         Songs = p.Songs.Select(s => new
                         {
                             s.Id,
