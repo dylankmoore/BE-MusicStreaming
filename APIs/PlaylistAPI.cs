@@ -12,10 +12,10 @@ namespace BE_MusicStreaming.APIs
             // GET ALL PLAYLISTS
             app.MapGet("/api/playlists", (BE_MusicStreamingDbContext db, int userId) =>
             {
-                // get all playlists, including public playlists & playlists belonging to the user
+                // get only public playlists not belonging to the user
                 var playlists = db.Playlists
                     .Include(p => p.Songs).ThenInclude(s => s.Artist)
-                    .Where(p => p.Public || p.UserId == userId);
+                     .Where(p => p.Public && p.UserId != userId);
 
                 // select relevant playlist details
                 var playlistData = playlists.Select(p => new
