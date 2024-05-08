@@ -27,6 +27,7 @@ namespace BE_MusicStreaming.APIs
                     p.Public,
                     p.IsFavorite,
                     UserName = p.User.Username,
+                    UserId = p.UserId,
                 }).ToList();
 
                 return Results.Ok(playlistData);
@@ -50,6 +51,7 @@ namespace BE_MusicStreaming.APIs
                     p.IsFavorite,
                     p.ImageUrl,
                     UserName = p.User.Username,
+                    UserId = p.UserId,
                 }).ToList();
 
                 return Results.Ok(playlistData);
@@ -105,6 +107,7 @@ namespace BE_MusicStreaming.APIs
                         p.IsFavorite,
                         p.ImageUrl,
                         UserName = p.User.Username,
+                        UserId = p.UserId,
                     }).ToList();
 
                 return Results.Ok(myPlaylists);
